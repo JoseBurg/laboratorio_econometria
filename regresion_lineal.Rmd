@@ -1,0 +1,68 @@
+---
+title: "Estimación de MCO"
+author: "José Burgos"
+date: "2023-10-17"
+output:
+  beamer_presentation:
+    number_sections: false
+theme: Madrid
+color: whale
+---
+
+------------------------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Estimaciones de MCO
+
+Modelo econométrico:
+
+$$
+y_i = \beta_0 + \beta_1x_i + u_i
+$$
+
+Variables:
+
+$y$ dependiente.
+
+$x$ independiente.
+
+Parametros:
+
+$\beta_0$ intercepto o constante.
+
+$\beta_1$ es la pendiente de la recta, es la relación entre $y$ y $x$.
+
+$u$ es el término de error, representa los factores distintos a $x$ que afectan a $y$ .
+
+## Ejemplo de Regresión Lineal Simple
+
+```{r}
+# Ejemplo de regresión lineal simple en R data \<- data.frame(X = c(1, 2, 3, 4, 5), Y = c(2, 3, 4, 4.5, 5.5)) model \<- lm(Y \~ X, data = data) summary(model)
+
+data <- data.frame(
+  x = c(1, 2, 3, 4, 5),
+  y = c(2, 3, 4, 4.5, 5.5))
+
+modelo <- lm(y~x, data = data)
+```
+
+```{r}
+library(ggplot2)
+
+residuos <- resid(modelo)
+
+
+residuos_plot <- ggplot(data.frame(Residuos = residuos), aes(x = seq_along(Residuos), y = Residuos)) +
+  geom_point() + 
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(title = "Gráfico de Residuos",
+       x = "Observaciones",
+       y = "Residuos") +
+  theme_minimal()
+
+
+
+```

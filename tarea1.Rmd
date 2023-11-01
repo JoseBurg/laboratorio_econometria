@@ -1,0 +1,34 @@
+---
+title: "Laboratorio de Econometría"
+subtitle: "Tarea 1"
+author: "José Burgos"
+date: "2023-09-27"
+output: pdf_document
+---
+
+```{r setup, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+encuesta_miembros <- read_excel("./ENFT_Abril_2011.xlsx", sheet = "Miembros")
+encuesta_ocupacion <- read_excel("./ENFT_Abril_2011.xlsx", sheet = "Ocupación")
+datos <- encuesta_miembros |> 
+  left_join(encuesta_ocupacion, by = c("EFT_VIVIENDA", "EFT_HOGAR","EFT_MIEMBRO"))
+```
+
+### Manipulación de datos: Utilizando los paquetes `readxl` y `tidyverse` , realice los siguientes ejercicios:
+
+1.  Con la función `left_join()` unir las hojas "Miembro" y "Ocupación" de "ENFT_Abril_2011.xlsx".
+
+2.  Calcular el ingreso promedio (EFT_ING_OCUP_PRINC).
+
+3.  Calcular el ingreso promedio por genero (EFT_SEXO).
+
+4.  Replicar el siguiente gráfico, cambiando la variable ingreso por la variable horas trabajadas a la semana (EFT_HORAS_SEM_OCUP_PRINC), diga que entiende con el resultado.
+
+    ```{r, warning = FALSE}
+    datos |> 
+      ggplot(aes(x  = EFT_EDAD)) +
+      geom_density()
+
+    ```

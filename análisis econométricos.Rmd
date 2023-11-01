@@ -1,0 +1,44 @@
+---
+title: "Etapas fundamentales en el análisis económico empírico"
+author: "José Burgos"
+output: beamer_presentation
+---
+
+## Introducción
+
+## 
+
+-   Los métodos econométricos son fundamentales en la economía aplicada.
+-   Se utilizan para probar teorías económicas y estimar relaciones relevantes para decisiones de negocios y análisis de políticas.
+
+## Análisis Empírico en Economía
+
+-   Utilización de datos para probar teorías o estimar relaciones.
+-   Estructuración de un análisis empírico requiere una cuidadosa formulación de la pregunta de interés.
+
+# Estructuración de un Análisis Económico Empírico
+
+## Formulación de la Pregunta de Interés
+
+-   Primer paso: formulación clara de la pregunta de interés.
+-   Relacionado con la prueba de teorías económicas o efectos de políticas públicas.
+
+## Construcción de Modelos Económicos
+
+-   En algunos casos, se construyen modelos económicos formales con ecuaciones matemáticas.
+-   Modelos que describen comportamientos y relaciones, como los modelos de decisión de consumo en microeconomía intermedia.
+
+## Aplicaciones de Herramientas Económicas
+
+-   Utilización de herramientas económicas básicas (ejemplo del modelo económico del comportamiento delictivo de Becker).
+
+# Conclusión
+
+## Importancia y Versatilidad de la Economía Empírica
+
+-   Los métodos econométricos permiten abordar una amplia gama de interrogantes en economía.
+-   La construcción de modelos y el uso de herramientas económicas ofrecen predicciones y explicaciones claras en el análisis económico.
+
+## Referencias
+
+-   Puedes incluir las referencias bibliográficas o fuentes consultadas.

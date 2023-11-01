@@ -1,0 +1,111 @@
+---
+title: "Primera Practica R"
+author: "Yipsy Casilla "
+date: '2023-10-01'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r}
+library(dplyr)
+library(readxl)
+library(Select)
+library(ggplot2)
+```
+
+a)  Importe por separado los m ́odulos de la base de datos.
+
+```{r,include=TRUE}
+vivienda=read_excel("C:\\Users\\DELL\\OneDrive\\Escritorio\\TRABAJO DE R\\ENFT_Abril_2011.xlsx",sheet="Vivienda")
+hogar=read_excel("C:\\Users\\DELL\\OneDrive\\Escritorio\\TRABAJO DE R\\ENFT_Abril_2011.xlsx",sheet="Hogar")
+miembros=read_excel("C:\\Users\\DELL\\OneDrive\\Escritorio\\TRABAJO DE R\\ENFT_Abril_2011.xlsx",sheet="Miembros")
+ocupacion=read_excel("C:\\Users\\DELL\\OneDrive\\Escritorio\\TRABAJO DE R\\ENFT_Abril_2011.xlsx",sheet="Ocupacion")
+remesas=read_excel("C:\\Users\\DELL\\OneDrive\\Escritorio\\TRABAJO DE R\\ENFT_Abril_2011.xlsx",sheet="Remesas")
+Ingresosexterior=read_excel("C:\\Users\\DELL\\OneDrive\\Escritorio\\TRABAJO DE R\\ENFT_Abril_2011.xlsx",sheet="Ingresosexterior")
+
+```
+
+b)Utilizando como variables vinculantes EFT VIVIENDA, EFT HOGAR y EFT MIEMBRO, realice la uni ́on (join) de los distintos m ́odulos para crear una base de datos.
+
+```{r}
+head(ocupacion)
+head(miembros)
+```
+
+```{r}
+Datos=merge(ocupacion,miembros,by=c("EFT_VIVIENDA","EFT_HOGAR","EFT_MIEMBRO"))
+```
+
+c)  Usando el comando table sobre la variable EFT SEXO, calcule la cantidad de mujeres en la muestra.
+
+```{r}
+head(Datos)
+
+```
+
+```{r}
+table(Datos$EFT_SEXO)
+
+```
+
+Haga el mismo c ́alculo escribiendo el siguiente codigo:
+
+```{r}
+Datos%>%group_by(EFT_SEXO)%>%summarise(n_sexo=length(EFT_SEXO))
+```
+
+d)  Cree las variables EDAD y MUJER, donde esta ́ultima es igual a 1 si el individuo es mujer.
+
+```{r}
+Datos[["EDAD"]]<-Datos[["EFT_EDAD"]] 
+Datos<-Datos%>%mutate(MUJER=ifelse(EFT_SEXO==1,0,1))
+```
+
+```{r}
+Datos_mujeres=Datos%>%filter(MUJER==1)
+Datos_hombres=Datos%>%filter(MUJER==0)
+
+```
+
+e)  Haga dos histogramas, uno al lado del otro para cada g ́enero, para graficar la distribuci ́on de las edades.
+
+```{r}
+par(mfrow=c(1,2))
+hist(Datos_hombres$EDAD,main = "Histograma de Hombres",xlab = "EDAD",ylab = "Frecuencia",col="blue2")
+hist(Datos_mujeres$EDAD,main= "Histograma de Mujeres",xlab = "EDAD",ylab = "Frecuencia",col = "cyan")
+```
+
+Cree la variable salario por hora utilizando la informacion de de ingreso labora en la ocupacion principal
+
+```{r}
+table(Datos$EFT_PERIODO_ING_OCUP_PRINC)
+```
+
+g)  Segmente la base de datos acorde con los deciles de ingreso salarial y estime el modelo de regresion lineal simple
+
+log(salario) = β0 + β1educacion + ε h) Con los coeficientes β1 estimados, realice un gr ́afico de barras para ilustrar el comportamiento del retorno de la educaci ́on en funci ́on del decil de ingresos.¿Qu ́e puede concluir? Interprete.
+
+```{r}
+Datosx=select(Datos,EFT_ING_OCUP_PRINC,EFT_PERIODO_ING_OCUP_PRINC,EFT_ULT_ANO_APROBADO,EFT_ULT_NIVEL_ALCANZADO)
+Datosx <- Datosx[!is.na(Datosx$EFT_PERIODO_ING_OCUP_PRINC),]
+Datosx <- Datosx[!is.na(Datosx$EFT_ING_OCUP_PRINC),]
+Datosx$educ=Datosx$EFT_ULT_ANO_APROBADO+Datosx$EFT_ULT_NIVEL_ALCANZADO
+head(Datosx)
+system.time({
+    D <- Datosx
+    D$Salario_Hora <- apply(D, 1, FUN = function(x) if(x[[2]]==5) x[[1]]/240 else if (x[[2]]==4) x[[1]]/120 else if (x[[2]]==3) x[[1]]/56 else if(x[[2]]==2) x[[1]]/8 else x[[1]])
+ })
+head(D)
+library(broom)
+D <- within(D, quartile <- as.integer(cut(Salario_Hora, quantile(Salario_Hora, probs=0:10/10), include.lowest=TRUE)))
+B=D %>% group_by(quartile) %>% do(tidy(lm(log(Salario_Hora) ~ educ, data = .)))
+B
+M=B%>%filter(term=="(Intercept)")
+M$decil=as.character(as.integer(M$quartile))
+ggplot(M,aes(decil,estimate,fill=decil))+geom_col()
+
+```
+
+```{r}
+```
