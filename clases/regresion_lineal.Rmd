@@ -40,24 +40,9 @@ $u$ es el término de error, representa los factores distintos a $x$ que afectan
 
 ## Ejemplo de Regresión Lineal Simple
 
-```{r, echo=TRUE}
-
-```
-
-```{r}
-library(ggplot2)
-
-residuos <- resid(modelo)
-
-
-residuos_plot <- ggplot(data.frame(Residuos = residuos), aes(x = seq_along(Residuos), y = Residuos)) +
-  geom_point() + 
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  labs(title = "Gráfico de Residuos",
-       x = "Observaciones",
-       y = "Residuos") +
-  theme_minimal()
-
+```{r, echo=TRUE, fig.width=3, fig.height=3}
+modelo1 <- lm(wage~educ, data = wage1)
+summary(modelo1)
 
 
 ```
