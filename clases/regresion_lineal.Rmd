@@ -13,6 +13,9 @@ color: whale
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(ggplot2)
+library(dplyr)
+library(wooldridge)
 ```
 
 ## Estimaciones de MCO
@@ -37,14 +40,8 @@ $u$ es el término de error, representa los factores distintos a $x$ que afectan
 
 ## Ejemplo de Regresión Lineal Simple
 
-```{r}
-# Ejemplo de regresión lineal simple en R data \<- data.frame(X = c(1, 2, 3, 4, 5), Y = c(2, 3, 4, 4.5, 5.5)) model \<- lm(Y \~ X, data = data) summary(model)
+```{r, echo=TRUE}
 
-data <- data.frame(
-  x = c(1, 2, 3, 4, 5),
-  y = c(2, 3, 4, 4.5, 5.5))
-
-modelo <- lm(y~x, data = data)
 ```
 
 ```{r}
