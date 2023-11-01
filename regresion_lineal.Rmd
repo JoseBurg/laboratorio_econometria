@@ -23,11 +23,9 @@ $$
 y_i = \beta_0 + \beta_1x_i + u_i
 $$
 
-Variables:
+### Ecuación:
 
-$y$ dependiente.
-
-$x$ independiente.
+Variables: $y$ dependiente y $x$ independiente.
 
 Parametros:
 
