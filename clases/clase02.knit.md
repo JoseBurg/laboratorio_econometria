@@ -1,0 +1,89 @@
+---
+title: "Laboratorio de econometría"
+author: "José Burgos"
+date: "2023-10-01"
+output: pdf_document
+---
+
+
+
+
+```r
+# Cargar la librería ggplot2 (asegúrate de tenerla instalada)
+library(ggplot2)
+
+# Generar datos para tres distribuciones diferentes
+set.seed(123)  # Establecer una semilla para reproducibilidad
+datos_normal <- rnorm(1000, mean = 0, sd = 1)  # Distribución normal
+datos_uniforme <- runif(1000, min = 0, max = 1)  # Distribución uniforme
+datos_exponencial <- rexp(1000, rate = 1)  # Distribución exponencial
+
+# Crear gráficos para cada distribución
+# Gráfico para la distribución normal
+ggplot(data.frame(valores = datos_normal), aes(x = valores)) +
+  geom_histogram(binwidth = 0.2, fill = "blue", color = "black") +
+  labs(title = "Distribución Normal", x = "Valores", y = "Frecuencia")
+```
+
+![](clase02_files/figure-latex/unnamed-chunk-1-1.pdf)<!-- --> 
+
+```r
+# Gráfico para la distribución uniforme
+ggplot(data.frame(valores = datos_uniforme), aes(x = valores)) +
+  geom_histogram(binwidth = 0.1, fill = "green", color = "black") +
+  labs(title = "Distribución Uniforme", x = "Valores", y = "Frecuencia")
+```
+
+![](clase02_files/figure-latex/unnamed-chunk-1-2.pdf)<!-- --> 
+
+```r
+# Gráfico para la distribución exponencial
+ggplot(data.frame(valores = datos_exponencial), aes(x = valores)) +
+  geom_density(binwidth = 0.2, fill = "grey", color = "black") +
+  labs(title = "Distribución Exponencial", x = "Valores", y = "Frecuencia")
+```
+
+```
+## Warning in geom_density(binwidth = 0.2, fill = "grey", color = "black"):
+## Ignoring unknown parameters: `binwidth`
+```
+
+![](clase02_files/figure-latex/unnamed-chunk-1-3.pdf)<!-- --> 
+
+```         
+```
+
+
+```r
+# Cargar la librería ggplot2 (asegúrate de tenerla instalada)
+library(ggplot2)
+
+# Definir los parámetros para la distribución normal
+mu <- 0
+sigma <- 1
+nivel_significancia <- 0.05
+
+# Crear un vector de valores para la distribución
+valores <- seq(-3, 3, by = 0.01)
+
+# Calcular la densidad de probabilidad para la distribución normal
+densidad_normal <- dnorm(valores, mean = mu, sd = sigma)
+
+# Crear el gráfico de densidad
+p <- ggplot(data.frame(x = valores, y = densidad_normal), aes(x = x, y = y)) +
+  geom_line() +
+  labs(title = "Distribución Normal", x = "Valores", y = "Densidad de Probabilidad") +
+  theme_minimal()
+
+# Calcular los valores críticos para la región de rechazo de dos colas
+valor_critico_superior <- qnorm(1 - nivel_significancia / 2, mean = mu, sd = sigma)
+valor_critico_inferior <- -valor_critico_superior
+
+# Agregar la región de rechazo de dos colas
+p <- p + geom_area(data = subset(data.frame(x = valores, y = densidad_normal), x < valor_critico_inferior | x > valor_critico_superior),
+                   aes(x = x, y = y), fill = "red", alpha = 0.3)
+
+print(p)
+```
+
+![](clase02_files/figure-latex/unnamed-chunk-2-1.pdf)<!-- --> 
