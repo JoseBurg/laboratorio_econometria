@@ -1,18 +1,12 @@
 ---
-title: "Estimación de MCO"
+title: "Clase de estimacion"
 author: "José Burgos"
-date: "2023-10-17"
-output:
-  beamer_presentation:
-    number_sections: false
-theme: Madrid
-color: whale
+date: "2023-11-20"
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(ggplot2)
-library(dplyr)
+knitr::opts_chunk$set(echo = TRUE)
 library(wooldridge)
 ```
 
@@ -34,7 +28,7 @@ $\beta_0$ intercepto o constante.
 
 $\beta_1$ es la pendiente de la recta, es la relación entre $y$ y $x$.
 
-$u$ es el término de error, representa los factores distintos a $x$ que afectan a $y$ .
+$u$ es el término de error, representa los factores distintos a $x$ que afectan a $y$.
 
 ## Ejemplo de Regresión Lineal Simple
 
