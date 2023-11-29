@@ -1,12 +1,12 @@
 ---
-title: "Clase de estimacion"
+title: "Clase de estimación"
 author: "José Burgos"
 date: "2023-11-20"
 output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(wooldridge)
 ```
 
@@ -30,7 +30,15 @@ $\beta_1$ es la pendiente de la recta, es la relación entre $y$ y $x$.
 
 $u$ es el término de error, representa los factores distintos a $x$ que afectan a $y$.
 
-## Ejemplo de Regresión Lineal Simple
+\newpage
+
+## Ejemplos de Regresión Lineal Simple
+
+### Modelo econometrico:
+
+$$wage = \beta_0 + \beta_1educ\ + \epsilon$$
+
+### Estimación:
 
 ```{r, echo=TRUE}
 library(stargazer)
@@ -38,12 +46,45 @@ modelo1 <- lm(wage~educ, data = wage1)
 stargazer(modelo1, type = "text")
 ```
 
+### Modelo estimado:
+
 $$wage = -0.9 + 0.54\ educ$$
+
+\newpage
+
+```{r, echo=FALSE}
+# Paquetes ----------------------------------------------------------------
+library(wooldridge)
+library(stargazer)
+library(dplyr)
+library(readxl) # Leer base de datos en excel
+
+miembros <- read_excel("./datos/ENFT_Abril_2011.xlsx", sheet = "Miembros")
+ocupacion <- read_excel("./datos/ENFT_Abril_2011.xlsx", sheet = "Ocupación")
+vivienda <- read_excel("./datos/ENFT_Abril_2011.xlsx", sheet = "Vivienda")
+# Union de bases de datos
+datos <- miembros |> 
+  left_join(ocupacion,
+            by = c("EFT_PERIODO", "EFT_VIVIENDA", "EFT_HOGAR", "EFT_MIEMBRO"))
+
+# Estimación de variables de la ENFT --------------------------------------
+```
+
+## Ejemplos con datos de la ENFT:
 
 ### Modelo econmetrico:
 
 $$monto\_alquiler = \beta_0 + \beta_1\ tiempo\_paga\_alquiler + \beta_2zona+ \epsilon$$
 
+```{r}
+monto_alquiler <- vivienda$EFT_MONTO_ALQUILER
+tiempo_alquiler <- vivienda$EFT_TIEMPO_PAGA_ALQUILER
+zona <- vivienda$EFT_ZONA
+
+mod_real1 <- lm(monto_alquiler ~ tiempo_alquiler + zona)
+stargazer(mod_real1, type = "text")
+```
+
 ### Modelo estimado:
 
-$$monto\_alquiler = 23.23 + 2906\ tiempo\_paga\_alquiler + -1677.9zona$$
+$$monto\_alquiler = 3,213.7 + 10.05* tiempo\_paga\_alquiler + -1677.9*zona$$
