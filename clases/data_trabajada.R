@@ -1,4 +1,5 @@
 library(readxl)
+library(dplyr)
 
 # Hojas disponibles del libro
 vivienda <- read_excel("./datos/ENFT_Abril_2011.xlsx", sheet = "Vivienda")
@@ -32,3 +33,14 @@ datos_manipulados <- datos |>
       EFT_ULT_NIVEL_ALCANZADO == 6 ~ EFT_ULT_ANO_APROBADO + 25, # Postuniversitario
       EFT_ULT_NIVEL_ALCANZADO == 7 ~ EFT_ULT_ANO_APROBADO,      # Cero
     ))
+
+# Nuevo análisis ----------------------------------------------------------
+
+datos_manipulados |> 
+  mutate(
+    sexo = recode(sexo,
+      `0` = "Mujer",
+      `1` = "Hombre")) |> 
+  ggplot() + 
+  geom_histogram(aes(EFT_ING_OCUP_PRINC))+
+  facet_wrap(~sexo)
